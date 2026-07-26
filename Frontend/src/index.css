@@ -551,70 +551,80 @@ textarea {
   margin: auto;
 }
 
-.welcome-card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:28px;
-margin-bottom:30px;
-background:linear-gradient(135deg,#4f46e5,#7c3aed);
-border-radius:18px;
-color:white;
-box-shadow:0 15px 35px rgba(79,70,229,.3);
+.welcome-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 18px;
+  color: white;
+  box-shadow: 0 15px 35px rgba(79, 70, 229, 0.3);
 }
 
-.progress-box{
-width:280px;
+.progress-box {
+  width: 280px;
 }
 
-.progress-box span{
-font-weight:700;
-display:block;
-margin-bottom:10px;
+.progress-box span {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
 }
 
-.progress-bar{
-height:12px;
-background:rgba(255,255,255,.25);
-border-radius:20px;
-overflow:hidden;
+.progress-bar {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.progress-fill{
-height:100%;
-background:#22c55e;
-border-radius:20px;
-transition:.6s;
+.progress-fill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 20px;
+  transition: 0.6s;
 }
 
-body.dark{
-    background:#111827;
-    color:white;
+body.dark {
+  background: #111827;
+  color: white;
 }
 
-body.dark .navbar{
-    background:#1f2937;
+body.dark .navbar {
+  background: #1f2937;
 }
 
-body.dark .container{
-    background:#111827;
+body.dark .container {
+  background: #111827;
 }
 
 body.dark .stat-card,
 body.dark .section-card,
-body.dark .task-card{
-    background:#1f2937;
-    color:white;
-    border:1px solid #374151;
+body.dark .task-card {
+  background: #1f2937;
+  color: white;
+  border: 1px solid #374151;
 }
 
 body.dark input,
 body.dark select,
-body.dark textarea{
-    background:#374151;
-    color:white;
+body.dark textarea {
+  background: #374151;
+  color: white;
 }
 
-body.dark a{
-    color:white;
+body.dark a {
+  color: white;
+}
+
+/* Dark Mode Profile Text */
+body.dark .profile-card,
+body.dark .profile-card h1,
+body.dark .profile-card h2,
+body.dark .profile-card h3,
+body.dark .profile-card p,
+body.dark .profile-card span {
+  color: black;
 }
