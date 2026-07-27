@@ -13,7 +13,7 @@ The project includes a modern React frontend, a Node.js and Express.js backend, 
 https://taskflow-frontend-bv2q.onrender.com
 
 ### Backend API
-https://taskflow-backend-fnjl.onrender.com
+https://taskflow-backend-fnjl.onrender.com/api
 
 ### GitHub Repository
 https://github.com/yashbaghel451/TaskFlow
