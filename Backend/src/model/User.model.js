@@ -20,25 +20,26 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "Password must contain * characters"],
     select: false,
   },
+  profileImage: {
+    type: String,
+    default: "",
+  },
 });
 
-userSchema.pre("save", async function (){
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
     console.log("Not Modified");
-    
   }
 
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt)
- 
-  
-})
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
-userSchema.methods.matchPassword = async function(enteredPassword){
-  const compare = await bcrypt.compare(enteredPassword,this.password);
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  const compare = await bcrypt.compare(enteredPassword, this.password);
   return compare;
-}
+};
 
-const userModel = mongoose.model("User",userSchema);
+const userModel = mongoose.model("User", userSchema);
 
 export default userModel;

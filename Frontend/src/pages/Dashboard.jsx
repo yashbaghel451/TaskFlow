@@ -70,11 +70,10 @@ const Dashboard = () => {
         const last7Days = Array.from({ length: 7 }, (_, index) => {
           const date = new Date(today);
 
-          date.setHours(0, 0, 0, 0);
           date.setDate(today.getDate() - (6 - index));
 
           return {
-            dateKey: date.toLocaleDateString("en-CA"),
+            date: date.toISOString().split("T")[0],
             name: date.toLocaleDateString("en-US", {
               weekday: "short",
             }),
@@ -84,22 +83,20 @@ const Dashboard = () => {
 
         // Completed tasks ko date ke according count karna
         tasks.forEach((task) => {
-          if (task.completed && task.updatedAt) {
-            const taskDate = new Date(task.updatedAt);
+          if (!task.completed || !task.updatedAt) return;
 
-            const taskDateKey = taskDate.toLocaleDateString("en-CA");
+          const taskDate = new Date(task.updatedAt);
 
-            const dayData = last7Days.find(
-              (day) => day.dateKey === taskDateKey,
-            );
+          if (isNaN(taskDate.getTime())) return;
 
-            if (dayData) {
-              dayData.completed += 1;
-            }
+          const taskDateString = taskDate.toISOString().split("T")[0];
+
+          const dayData = last7Days.find((day) => day.date === taskDateString);
+
+          if (dayData) {
+            dayData.completed += 1;
           }
         });
-
-        console.log("Weekly Productivity Data:", last7Days);
 
         setWeeklyData(last7Days);
 
@@ -215,17 +212,19 @@ const Dashboard = () => {
         <section className="section-card">
           <h2 style={{ marginBottom: "20px" }}>Task Overview</h2>
 
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={chartData} dataKey="value" outerRadius={100} label>
-                {chartData.map((entry, index) => (
-                  <Cell key={index} fill={COLORS[index]} />
-                ))}
-              </Pie>
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie data={chartData} dataKey="value" outerRadius={100} label>
+                  {chartData.map((entry, index) => (
+                    <Cell key={index} fill={COLORS[index]} />
+                  ))}
+                </Pie>
 
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
           <div className="chart-summary">
             <p>🟢 Completed : {stats.completed}</p>
             <p>🟡 Pending : {stats.pending}</p>
@@ -245,24 +244,26 @@ const Dashboard = () => {
             Tasks completed during the last 7 days.
           </p>
 
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={weeklyData}>
-              <CartesianGrid strokeDasharray="3 3" />
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={weeklyData}>
+                <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="name" />
+                <XAxis dataKey="name" />
 
-              <YAxis allowDecimals={false} />
+                <YAxis allowDecimals={false} />
 
-              <Tooltip />
+                <Tooltip />
 
-              <Bar
-                dataKey="completed"
-                name="Completed Tasks"
-                fill="#22c55e"
-                radius={[6, 6, 0, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
+                <Bar
+                  dataKey="completed"
+                  name="Completed Tasks"
+                  fill="#22c55e"
+                  radius={[6, 6, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </section>
 
         <br />

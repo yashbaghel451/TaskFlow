@@ -628,3 +628,291 @@ body.dark .profile-card p,
 body.dark .profile-card span {
   color: black;
 }
+
+/* ================================
+   MOBILE RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 650px) {
+  /* Main Container */
+  .container {
+    width: 92%;
+    margin: 25px auto;
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 15px 4%;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .nav-links a {
+    padding: 8px 10px;
+    font-size: 13px;
+    gap: 5px;
+  }
+
+  .nav-user {
+    font-size: 13px;
+  }
+
+  /* Page Heading */
+  .page-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .page-heading h1 {
+    font-size: 30px;
+  }
+
+  .page-heading .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Welcome Card */
+  .welcome-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+    padding: 22px;
+  }
+
+  .welcome-card h2 {
+    font-size: 21px;
+  }
+
+  .welcome-card p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .progress-box {
+    width: 100%;
+  }
+
+  /* Stats Cards */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 18px 14px;
+  }
+
+  .stat-icon {
+    font-size: 28px;
+  }
+
+  .stat-card span {
+    font-size: 13px;
+  }
+
+  .stat-card strong {
+    font-size: 28px;
+  }
+
+  /* Section Cards */
+  .section-card {
+    padding: 18px 14px;
+    overflow: hidden;
+  }
+
+  .section-card h2 {
+    font-size: 20px;
+  }
+
+  /* Charts */
+  .recharts-responsive-container {
+    width: 100% !important;
+  }
+
+  .recharts-wrapper {
+    max-width: 100%;
+  }
+
+  /* Chart Summary */
+  .chart-summary {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  /* Recent Tasks */
+  .section-header {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  .task-row {
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .task-row h3 {
+    font-size: 16px;
+    word-break: break-word;
+  }
+
+  .task-row p {
+    font-size: 13px;
+  }
+
+  .status {
+    flex-shrink: 0;
+  }
+
+  /* Task Cards */
+  .task-card {
+    padding: 18px;
+  }
+
+  .task-card h2 {
+    font-size: 18px;
+  }
+
+  .task-actions {
+    flex-direction: column;
+  }
+
+  .task-actions .btn {
+    width: 100%;
+  }
+
+  /* Filters */
+  .filters {
+    flex-direction: column;
+  }
+
+  /* Auth Pages */
+  .auth-page {
+    padding: 15px;
+  }
+
+  .auth-card {
+    padding: 25px 20px;
+  }
+
+  /* Profile */
+  .profile-card {
+    padding: 25px 18px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal {
+    padding: 20px;
+    max-height: 92vh;
+  }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    gap: 4px;
+  }
+
+  .nav-links a {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .page-heading h1 {
+    font-size: 27px;
+  }
+
+  .welcome-card {
+    padding: 18px;
+  }
+
+  .welcome-card h2 {
+    font-size: 19px;
+  }
+
+  .section-card {
+    padding: 15px 10px;
+  }
+}
+
+.chart-container {
+  width: 100%;
+  height: 300px;
+  min-width: 0;
+}
+
+@media (max-width: 650px) {
+  .chart-container {
+    height: 280px;
+  }
+}
+
+.profile-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.profile-avatar-image,
+.profile-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+}
+
+.profile-avatar-image {
+  object-fit: cover;
+  border: 4px solid #5b5be7;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  background: #5b5be7;
+  color: white;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .profile-avatar-image,
+  .profile-avatar {
+    width: 95px;
+    height: 95px;
+  }
+
+  .profile-avatar {
+    font-size: 36px;
+  }
+}
