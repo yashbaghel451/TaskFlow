@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 import {
   FaTasks,
   FaCheckCircle,
@@ -23,7 +34,7 @@ const Dashboard = () => {
 
   const [recentTasks, setRecentTasks] = useState([]);
 
-  
+  const [weeklyData, setWeeklyData] = useState([]);
 
   const progress =
     stats.total === 0 ? 0 : Math.round((stats.completed / stats.total) * 100);
@@ -40,15 +51,88 @@ const Dashboard = () => {
     const loadDashboard = async () => {
       try {
         setLoading(true);
+
         const [statsResponse, tasksResponse] = await Promise.all([
           api.get("/tasks/stats"),
           api.get("/tasks?sort=oldest"),
         ]);
 
+        const tasks = tasksResponse.data.tasks;
+
+        console.log("Tasks from Backend:", tasks);
+
         setStats(statsResponse.data);
-        setRecentTasks(tasksResponse.data.tasks.slice(-5).reverse());
+        setRecentTasks(tasks.slice(-5).reverse());
+
+        // Last 7 days ka data
+        const today = new Date();
+
+        const last7Days = Array.from({ length: 7 }, (_, index) => {
+          const date = new Date(today);
+
+          date.setHours(0, 0, 0, 0);
+          date.setDate(today.getDate() - (6 - index));
+
+          return {
+            dateKey: date.toLocaleDateString("en-CA"),
+            name: date.toLocaleDateString("en-US", {
+              weekday: "short",
+            }),
+            completed: 0,
+          };
+        });
+
+        // Completed tasks ko date ke according count karna
+        tasks.forEach((task) => {
+          if (task.completed && task.updatedAt) {
+            const taskDate = new Date(task.updatedAt);
+
+            const taskDateKey = taskDate.toLocaleDateString("en-CA");
+
+            const dayData = last7Days.find(
+              (day) => day.dateKey === taskDateKey,
+            );
+
+            if (dayData) {
+              dayData.completed += 1;
+            }
+          }
+        });
+
+        console.log("Weekly Productivity Data:", last7Days);
+
+        setWeeklyData(last7Days);
+
+        // Completed tasks ko last 7 days ke according count karna
+        tasks.forEach((task) => {
+          if (task.completed && task.updatedAt) {
+            const taskDate = new Date(task.updatedAt);
+
+            const taskYear = taskDate.getFullYear();
+            const taskMonth = taskDate.getMonth();
+            const taskDay = taskDate.getDate();
+
+            const dayData = last7Days.find((day) => {
+              return (
+                day.date.getFullYear() === taskYear &&
+                day.date.getMonth() === taskMonth &&
+                day.date.getDate() === taskDay
+              );
+            });
+
+            if (dayData) {
+              dayData.completed += 1;
+            }
+          }
+        });
+
+        console.log("Weekly Productivity Data:", last7Days);
+
+        setWeeklyData(last7Days);
+
+        setWeeklyData(last7Days);
       } catch (error) {
-        console.error(error);
+        console.error("Dashboard Error:", error);
       } finally {
         setLoading(false);
       }
@@ -150,6 +234,35 @@ const Dashboard = () => {
               <strong>Progress: {progress}%</strong>
             </p>
           </div>
+        </section>
+
+        <br />
+
+        <section className="section-card">
+          <h2 style={{ marginBottom: "20px" }}>Weekly Productivity</h2>
+
+          <p style={{ marginBottom: "20px" }}>
+            Tasks completed during the last 7 days.
+          </p>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={weeklyData}>
+              <CartesianGrid strokeDasharray="3 3" />
+
+              <XAxis dataKey="name" />
+
+              <YAxis allowDecimals={false} />
+
+              <Tooltip />
+
+              <Bar
+                dataKey="completed"
+                name="Completed Tasks"
+                fill="#22c55e"
+                radius={[6, 6, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </section>
 
         <br />
