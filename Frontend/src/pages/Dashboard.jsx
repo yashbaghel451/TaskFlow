@@ -167,7 +167,7 @@ const Dashboard = () => {
 
         <div className="welcome-card">
           <div>
-            <h2>👋 Welcome Back, Yash</h2>
+            <h2>👋 Welcome Back</h2>
             <p>Stay focused and complete your goals today.</p>
           </div>
 
