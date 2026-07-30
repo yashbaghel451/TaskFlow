@@ -7,13 +7,16 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // =========================
   // LOGIN
+  // =========================
   const login = async (email, password) => {
     const { data } = await api.post("/auth/login", {
       email,
       password,
     });
 
+    // Login ke time token save hoga
     localStorage.setItem("token", data.token);
 
     setUser({
@@ -26,7 +29,9 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  // =========================
   // REGISTER
+  // =========================
   const register = async (name, email, password) => {
     const { data } = await api.post("/auth/register", {
       name,
@@ -34,25 +39,26 @@ export const AuthProvider = ({ children }) => {
       password,
     });
 
-    localStorage.setItem("token", data.token);
-
-    setUser({
-      _id: data._id,
-      name: data.name,
-      email: data.email,
-      profileImage: data.profileImage || "",
-    });
+    // IMPORTANT:
+    // Registration ke time token save nahi karna hai.
+    // User ko pehle email verify karni hogi.
+    // Isliye yahan localStorage.setItem("token") nahi hai.
+    // Isliye yahan setUser() bhi nahi hai.
 
     return data;
   };
 
+  // =========================
   // LOGOUT
+  // =========================
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
   };
 
+  // =========================
   // GET CURRENT USER
+  // =========================
   const getMe = async () => {
     try {
       const { data } = await api.get("/auth/me");
@@ -66,6 +72,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // =========================
+  // CHECK LOGIN ON PAGE LOAD
+  // =========================
   useEffect(() => {
     const token = localStorage.getItem("token");
 

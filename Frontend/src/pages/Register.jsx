@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
   const { register } = useAuth();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,6 +12,7 @@ const Register = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -24,19 +24,34 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
+    setSuccess("");
     setLoading(true);
 
     try {
-      await register(
+      const data = await register(
         formData.name,
         formData.email,
-        formData.password
+        formData.password,
       );
 
-      navigate("/dashboard");
+      setSuccess(
+        data.message ||
+          "Account created successfully. Please check your email to verify your account.",
+      );
+
+      // Form clear
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+      });
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed");
+      setError(
+        error.response?.data?.message ||
+          "Registration failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -46,42 +61,51 @@ const Register = () => {
     <div className="auth-page">
       <div className="auth-card">
         <h1>Create Account 🚀</h1>
+
         <p>Start managing your tasks today</p>
 
         {error && <div className="error-message">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
-          <input
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        {success && <div className="success-message">{success}</div>}
 
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+        {!success && (
+          <form onSubmit={handleSubmit}>
+            <input
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            minLength="8"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-          <button className="btn btn-primary full-width" disabled={loading}>
-            {loading ? "Creating Account..." : "Register"}
-          </button>
-        </form>
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              minLength="8"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button
+              type="submit"
+              className="btn btn-primary full-width"
+              disabled={loading}
+            >
+              {loading ? "Creating Account..." : "Register"}
+            </button>
+          </form>
+        )}
 
         <p className="auth-footer">
           Already have an account? <Link to="/login">Login</Link>
