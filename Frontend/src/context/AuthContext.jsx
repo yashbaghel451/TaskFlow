@@ -16,9 +16,10 @@ export const AuthProvider = ({ children }) => {
       password,
     });
 
-    // Login ke time token save hoga
+    // Save JWT Token
     localStorage.setItem("token", data.token);
 
+    // Set Logged In User
     setUser({
       _id: data._id,
       name: data.name,
@@ -39,11 +40,16 @@ export const AuthProvider = ({ children }) => {
       password,
     });
 
-    // IMPORTANT:
-    // Registration ke time token save nahi karna hai.
-    // User ko pehle email verify karni hogi.
-    // Isliye yahan localStorage.setItem("token") nahi hai.
-    // Isliye yahan setUser() bhi nahi hai.
+    // Registration ke baad JWT Token save hoga
+    localStorage.setItem("token", data.token);
+
+    // User ko immediately login kar do
+    setUser({
+      _id: data._id,
+      name: data.name,
+      email: data.email,
+      profileImage: data.profileImage || "",
+    });
 
     return data;
   };

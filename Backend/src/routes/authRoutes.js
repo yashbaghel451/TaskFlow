@@ -5,7 +5,6 @@ import {
   loginUser,
   registerUser,
   uploadProfileImage,
-  verifyEmail,
 } from "../controller/authControllers.js";
 
 import protect from "../middleware/authMiddleware.js";
@@ -21,9 +20,6 @@ router.post("/login", loginUser);
 
 // Get Current User
 router.get("/me", protect, getMe);
-
-// Verify Email
-router.get("/verify-email/:token", verifyEmail);
 
 // Upload Profile Image
 router.put(
